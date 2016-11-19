@@ -335,4 +335,12 @@ public class App{
 	public Cursor getCursor(Point p) {
 		return model.getCursor(p);
 	}
+
+	public void fixLocation(Point p) {
+		model.fixLocation(p);
+	}
+
+	public int getNumSelected() {
+		return model.getNumSelected();
+	}
 }

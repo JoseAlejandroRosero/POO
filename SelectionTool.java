@@ -24,8 +24,7 @@ public class SelectionTool extends Tool {
 			}			
 		}
 		else if(App.getInstance().getMyCursor()==Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR)){
-			App.getInstance().move(ptReleased);
-			
+			App.getInstance().fixLocation(ptReleased);
 		}
 		else{
 			App.getInstance().processCursor(App.getInstance().getMyCursor(), ptReleased);

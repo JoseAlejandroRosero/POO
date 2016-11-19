@@ -32,10 +32,9 @@ public class Text extends Figure {
 	public void dopaint(final Graphics2D g) {
 		BoundBox bbox = getNormalizedBoundBox();
 		FontMetrics fm = g.getFontMetrics();
-		Point p= getPosition();
 		g.setFont(font);
 		g.setClip(bbox.x, bbox.y, bbox.width, bbox.height);
-		g.drawString(string,p.x, p.y+fm.getAscent());
+		g.drawString(string,bbox.x, bbox.y+fm.getAscent());
 		g.setClip(null);
 	}
 

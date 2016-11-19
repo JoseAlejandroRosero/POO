@@ -181,10 +181,12 @@ public class Drawing {
 			Figure f = li.previous();
 			if(f.isSelected()){
 				f.setSelected(false);
+				numSelected-=1;
 			}
 			if(f.contains(p)){
 				f.setSelected(true);
 				numSelected+=1;
+				break;
 			}
 		}
 		refreshUndoRedo();
@@ -298,8 +300,8 @@ public class Drawing {
 				f.setSelected(true);
 				figures.add(f);
 			}
+			notifyListeners(DrawingEvent.UNGROUP);
 		}
-		notifyListeners(DrawingEvent.UNGROUP);
 	}
 	
 	public Cursor getCursor(Point p) {
@@ -334,6 +336,12 @@ public class Drawing {
 			break;
 		}
 		notifyListeners(DrawingEvent.RESIZED);
+	}
+	
+	public void fixLocation(Point p) {
+		for(Figure f: getSelected()){
+			f.setPosition(p);
+		}
 	}
 	
 	private void notifyListeners(final DrawingEvent ev) {
@@ -401,6 +409,7 @@ public class Drawing {
 		}
 		
 	}
+
 
 
 }

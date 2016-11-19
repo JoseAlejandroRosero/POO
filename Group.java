@@ -64,4 +64,28 @@ public class Group extends Figure {
 			f.processCursor(c, p);
 		}
 	}
+	@Override
+	public void move(Point p){
+		int dx=0;
+		int dy=0;
+		Point g = getPosition();
+		for(Figure f: children){
+			Point r = f.getPosition();
+			dx = r.x-2*g.x;
+			dy = g.y-2*r.y;
+			f.setPosition(new Point(r.x+dx,r.y+dy));
+		}
+	}
+	@Override
+	public void setPosition(Point p){
+		int dx=0;
+		int dy=0;
+		Point g = getPosition();
+		for(Figure f: children){
+			Point r = f.getPosition();
+			dx = r.x-2*g.x;
+			dy = g.y-2*r.y;
+			f.setPosition(new Point(r.x+dx,r.y+dy));
+		}
+	}
 }
