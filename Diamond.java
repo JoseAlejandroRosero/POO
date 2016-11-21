@@ -2,7 +2,6 @@ package model;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
@@ -19,8 +18,8 @@ public class Diamond extends ClosedFigure {
 	private int[] xPoints = new int[N];
 	private int[] yPoints = new int[N];
 
-	public Diamond(Point position, Color color, Dimension size, int thickness, Color fillcolor, BoundBox bbox) {
-		super(position, color, size, thickness, fillcolor, bbox);
+	public Diamond(Color color, int thickness, Color fillcolor, BoundBox bbox) {
+		super( color, thickness, fillcolor, bbox);
 
 		xPoints[FIRST] = bbox.x+(bbox.width/2);
 		xPoints[SECOND] = bbox.x;
@@ -36,7 +35,7 @@ public class Diamond extends ClosedFigure {
 	
 	public Diamond(Point first, Point second){
 		
-		this(first,Color.BLACK,null,1,null,new BoundBox(first,second));
+		this(Color.BLACK,1,null,new BoundBox(first,second));
 		
 		BoundBox bbox = getNormalizedBoundBox();
 		xPoints[FIRST] = bbox.x+(bbox.width/2);

@@ -2,16 +2,14 @@ package model;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
 public class Ellipse extends ClosedFigure implements Cloneable{
 	
 	private static final long serialVersionUID = 1L;
 
-	public Ellipse(Point position,Color color,Dimension size,int thickness,Color fillcolor,BoundBox bbox){
-		super(position,color,size,thickness,fillcolor,bbox);
+	public Ellipse(Color color,int thickness,Color fillcolor,BoundBox bbox){
+		super(color,thickness,fillcolor,bbox);
 	}
 	
 	public Ellipse(BoundBox bbox){

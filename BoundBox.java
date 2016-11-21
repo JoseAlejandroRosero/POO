@@ -38,7 +38,7 @@ public class BoundBox extends Rectangle {
 	}
 	public BoundBox(Point p, Point r) {
 		this(p.x,p.y,r.x-p.x,r.y-p.y);
-		this.normalize();
+		normalize();
 	}
 	public BoundBox() {
 		for(Cardinal c: Cardinal.values()){
@@ -79,8 +79,8 @@ public class BoundBox extends Rectangle {
 		this.y = bbox.y;
 		this.width = bbox.width;
 		this.height = bbox.height;
-		for(Cardinal c : Cardinal.values()){
-			controlpoints[c.ordinal()]= new ControlPoint(c,this);
+		for(ControlPoint cp : controlpoints){
+			cp.updatePosition(this);
 		}
 	}
 	public Cursor getCursor(Point p) {
@@ -94,30 +94,26 @@ public class BoundBox extends Rectangle {
 	}
 	@Override
 	public boolean contains(Point p){
-		boolean b= false;
-		if(super.contains(p)){
-			b=true;
-		}
 		for(ControlPoint cp : controlpoints){
 			if(cp.contains(p)){
-				b=true;
+				return true;
 			}
 		}
-		return b;
+		return super.contains(p);
 	}
 	public void setPosition(Point p) {
-		int dx = 2*x-p.x;
-		int dy = 2*y-p.y;
-		setLocation(x-dx, y-dy);
+		int dx = p.x-2*x;
+		int dy = p.y-2*y;
+		translate(dx, dy);
 		for(ControlPoint cp : controlpoints ){
-			cp.setPosition(dx, dy);
+			cp.translate(dx, dy);
 		}
 	}
 	@Override
 	public void setBounds(int x, int y, int width, int height){
 		super.setBounds(x, y, width, height);
-		for(Cardinal c : Cardinal.values()){
-			controlpoints[c.ordinal()]= new ControlPoint(c,this);
+		for(ControlPoint cp : controlpoints){
+			cp.updatePosition(this);
 		}
 	}
 }

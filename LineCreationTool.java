@@ -10,9 +10,7 @@ public class LineCreationTool extends CreationTool{
 
 	@Override
 	protected Figure createFigure(final Point p, final Point r) {
-		Point pt = p;
-		Point rt = r;		
-		return new Line(pt,rt);
+		return new Line(p,r);
 	}
 	
 	@Override

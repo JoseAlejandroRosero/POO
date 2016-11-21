@@ -24,17 +24,18 @@ import model.DrawingListener.DrawingEvent;
 import util.AddFigureEdit;
 import util.ColorEdit;
 import util.FillcolorEdit;
+import util.MoveFigureEdit;
 import util.RemoveFigureEdit;
 
 public class Drawing {
 	
 	
-	private int numSelected=0;
+	private int numSelected;
 	private boolean modified;
-	private String pathname= "No Name";
+	private String pathname = "No Name";
 	private UndoManager lastAction;
 	private UndoableEditSupport support;
-	private Action undoAction= new UndoAction();
+	private Action undoAction = new UndoAction();
 	private Action redoAction = new RedoAction();
 	private List<Figure> figures;
 	private List<DrawingListener> listeners;
@@ -48,18 +49,6 @@ public class Drawing {
 		support = new UndoableEditSupport();
 		support.addUndoableEditListener(new UndoAdapter());
 		
-	}
-	
-	public Action getUndoAction() {
-		return undoAction;
-	}
-
-	public Action getRedoAction() {
-		return redoAction;
-	}
-	
-	public int getNumSelected() {
-		return numSelected;
 	}
 	
 	public String getPathname() {
@@ -154,7 +143,6 @@ public class Drawing {
 		figures.add(f);
 		support.postEdit(edit);
 		notifyListeners( DrawingEvent.ADDED );
-		notifyListeners( DrawingEvent.SELECTED );
 		refreshUndoRedo();
 	}
 
@@ -174,21 +162,19 @@ public class Drawing {
 		refreshUndoRedo();
 		notifyListeners( DrawingEvent.REMOVED );
 	}
-	
 	public void select(Point p) {
 		ListIterator<Figure> li= getListIterator();
+		for(Figure f : figures){
+			f.setSelected(false);
+		}
 		while(li.hasPrevious()){
 			Figure f = li.previous();
-			if(f.isSelected()){
-				f.setSelected(false);
-				numSelected-=1;
-			}
 			if(f.contains(p)){
 				f.setSelected(true);
-				numSelected+=1;
 				break;
 			}
 		}
+		numSelected=1;
 		refreshUndoRedo();
 		notifyListeners( DrawingEvent.SELECTED );
 	}
@@ -198,10 +184,10 @@ public class Drawing {
 		while(li.hasPrevious()){
 		    Figure f = li.previous();
 			if(selectedBoundBox.intersects(f.getNormalizedBoundBox())){
-			f.setSelected(true);
-			numSelected+=1;
+				f.setSelected(true);
+				numSelected+=1;
 			}
-			}
+		}
 		refreshUndoRedo();
 		notifyListeners( DrawingEvent.SELECTED );
 	}
@@ -280,9 +266,7 @@ public class Drawing {
 	public void group() {
 		List<Figure> children = getSelected();
 		figures.add(new Group(children));
-		for(Figure f : children){
-			figures.remove(f);
-		}
+		figures.removeAll(children);
 		notifyListeners(DrawingEvent.GROUP);
 	}
 	
@@ -297,9 +281,10 @@ public class Drawing {
 		}
 		if(children!=null){
 			for(Figure f : children){
-				f.setSelected(true);
+				f.setSelected(false);
 				figures.add(f);
 			}
+			figures.get(figures.size()-1).setSelected(true);
 			notifyListeners(DrawingEvent.UNGROUP);
 		}
 	}
@@ -316,8 +301,8 @@ public class Drawing {
 	
 	public void move(Point p) {
 		for(Figure f : getSelected()){
-			f.move(p);
-			break;
+				f.move(p);
+				break;
 		}
 		notifyListeners(DrawingEvent.MOVED);
 	}
@@ -332,17 +317,37 @@ public class Drawing {
 	
 	public void processCursor(Cursor c,Point p) {
 		for(Figure f : getSelected()){
-			f.processCursor(c,p);
-			break;
+			if(numSelected==1){
+				f.processCursor(c,p);
+				break;
+			}
 		}
 		notifyListeners(DrawingEvent.RESIZED);
 	}
+	public void relocalize(Figure f, Point p) {
+		for(Figure e: figures){
+			if(e==f){
+				f.move(p);
+			}
+		}
+		notifyListeners(DrawingEvent.MOVED);
+	}
 	
-	public void fixLocation(Point p) {
-		for(Figure f: getSelected()){
-			f.setPosition(p);
+	public void fixedPosition(Point p,Point r) {
+		int dx;
+		int dy;
+		for(Figure f : getSelected()){
+			if(f.contains(r)){
+				dx=r.x-f.getPosition().x;
+				dy=r.y-f.getPosition().y;
+				Point g = f.getPosition();
+				UndoableEdit e = new MoveFigureEdit(this,f,new Point(p.x-dx,p.y-dy),g);
+				support.postEdit(e);
+				refreshUndoRedo();
+			}
 		}
 	}
+
 	
 	private void notifyListeners(final DrawingEvent ev) {
 		switch( ev ){
@@ -409,8 +414,5 @@ public class Drawing {
 		}
 		
 	}
-
-
-
 }
 

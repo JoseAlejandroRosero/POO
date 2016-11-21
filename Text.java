@@ -1,11 +1,9 @@
 package model;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
 import javax.swing.JOptionPane;
 
@@ -16,8 +14,8 @@ public class Text extends Figure {
 	private Font font;
 	private String string;
 	
-	public Text(Point position, Color color, Dimension size,Font font,String string, BoundBox bbox) {
-		super(position, color, size,bbox);
+	public Text(Color color,Font font,String string, BoundBox bbox) {
+		super( color,bbox);
 		this.font=font;
 		this.string=string;
 	}

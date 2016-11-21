@@ -27,7 +27,7 @@ import view.View;
 
 public class App{
 	
-	public static final String TITLE = "Editor Gráfico v0.1-";
+	public static final String TITLE = "Editor Gráfico v0.5-";
 
 	private static App instance;
 	private static final String EXT=".eg";
@@ -327,7 +327,6 @@ public class App{
 	public void ungroup() {
 		model.ungroup();
 	}
-
 	public void processCursor(Cursor c,Point p) {
 		model.processCursor(c,p);
 	}
@@ -335,12 +334,7 @@ public class App{
 	public Cursor getCursor(Point p) {
 		return model.getCursor(p);
 	}
-
-	public void fixLocation(Point p) {
-		model.fixLocation(p);
-	}
-
-	public int getNumSelected() {
-		return model.getNumSelected();
+	public void fixedPosition(Point p,Point r) {
+		model.fixedPosition(p,r);
 	}
 }

@@ -58,34 +58,17 @@ public class Group extends Figure {
 		}
 	}
 	@Override
-	public void processCursor(Cursor c, Point p){
-		super.processCursor(c, p);
-		for(Figure f: children){
-			f.processCursor(c, p);
-		}
-	}
-	@Override
 	public void move(Point p){
-		int dx=0;
-		int dy=0;
-		Point g = getPosition();
+		super.move(p);
 		for(Figure f: children){
-			Point r = f.getPosition();
-			dx = r.x-2*g.x;
-			dy = g.y-2*r.y;
-			f.setPosition(new Point(r.x+dx,r.y+dy));
+			f.move(p);
 		}
 	}
 	@Override
-	public void setPosition(Point p){
-		int dx=0;
-		int dy=0;
-		Point g = getPosition();
-		for(Figure f: children){
-			Point r = f.getPosition();
-			dx = r.x-2*g.x;
-			dy = g.y-2*r.y;
-			f.setPosition(new Point(r.x+dx,r.y+dy));
+	public void processCursor(Cursor c,Point p){
+		super.processCursor(c, p);
+		for(Figure f : children){
+			f.processCursor(c, p);
 		}
 	}
 }

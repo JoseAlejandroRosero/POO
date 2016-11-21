@@ -1,9 +1,7 @@
 package model;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
 public abstract class ClosedFigure extends GeometricFigure{
 
@@ -11,8 +9,8 @@ public abstract class ClosedFigure extends GeometricFigure{
 	private Color fillcolor;
 	
 	protected abstract void fillFigure(Graphics2D g);
-	protected ClosedFigure(Point position, Color color, Dimension size, int thickness,Color fillcolor,BoundBox bbox) {
-		super(position, color, size, thickness,bbox);
+	protected ClosedFigure( Color color, int thickness,Color fillcolor,BoundBox bbox) {
+		super( color, thickness,bbox);
 		this.fillcolor=fillcolor;
 		
 	}
