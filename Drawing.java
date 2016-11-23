@@ -322,8 +322,7 @@ public class Drawing {
 	public void resize(Point p) {
 		for(Iterator<Figure> it = figures.descendingIterator();it.hasNext();){
 			Figure f=it.next();
-			if(!f.isSelected())select(p);
-			f.resize(p);
+			if(f.isSelected())f.resize(p);
 		}
 		notifyListeners(DrawingEvent.RESIZED);
 	}

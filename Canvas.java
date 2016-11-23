@@ -92,13 +92,16 @@ public class Canvas extends JPanel implements DrawingListener{
 						int dy=p.y-pressed.y;
 						Figure figure = App.getInstance().getFigureIn(p);
 						if(figure!=null){
-							if(!figure.isSelected())App.getInstance().select(p);
+							App.getInstance().select(p);
 							App.getInstance().move(dx, dy);
 						}
 						setPressed(p);
 					}
 					if(c==Cursor.getDefaultCursor())activeTool.processMouseDragged(e.getPoint());
-					else App.getInstance().resize(p);
+					else{ 
+						App.getInstance().select(p);
+						App.getInstance().resize(p);
+					}
 				}
 				
 			});

@@ -35,11 +35,5 @@ public class Line extends GeometricFigure {
 		BoundBox bbox = getBoundBox().normalized();
 		return bbox;
 	}
-	@Override
-	public void resize(Point p) {
-		getNormalizedBoundBox().moveTo(p);
-		BoundBox bbox=getBoundBox();
-		if(bbox.width<0 && bbox.height>0);
-	}
 }	
 

@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -6,10 +6,10 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import model.BoundBox;
-import model.Shape;
+import mediator.App;
+import view.Cardinal;
 
-@SuppressWarnings({ "unused", "serial" })
+@SuppressWarnings("serial")
 public class ControlPoint extends Rectangle implements Shape{
 	
 	private BoundBox bbox;
@@ -70,6 +70,50 @@ public class ControlPoint extends Rectangle implements Shape{
 	public void paint(Graphics g) {
 		Point p=getLocation();
 		g.fillRect(p.x, p.y, SIZE.width, SIZE.height);
+	}
+
+	public void moveTo(Point p) {
+		int dy;
+		int dx;
+		if(App.getInstance().getMyCursor()==getCursor())
+		switch (cardinal) {
+		case NORTHWEST:
+			dy = bbox.y - p.y;
+			dx = bbox.x - p.x;
+			bbox.setBounds(p.x, p.y, bbox.width + dx, bbox.height + dy);
+			break;
+		case NORTH:
+			dy = bbox.y - p.y;
+			bbox.setBounds(bbox.x, p.y, bbox.width, bbox.height + dy);
+			break;
+		case NORTHEAST:
+			dx = p.x - bbox.x - bbox.width;
+			dy = bbox.y - p.y;
+			bbox.setBounds(bbox.x, p.y, bbox.width + dx, bbox.height + dy);
+			break;
+		case EAST:
+			dx = p.x - bbox.x - bbox.width;
+			bbox.setBounds(bbox.x, bbox.y, bbox.width + dx, bbox.height);
+			break;
+		case SOUTHEAST:
+			dx = p.x - bbox.x - bbox.width;
+			dy = p.y - bbox.y - bbox.height;
+			bbox.setBounds(bbox.x, bbox.y, bbox.width + dx, bbox.height + dy);
+			break;
+		case SOUTH:
+			dy = p.y - bbox.y - bbox.height;
+			bbox.setBounds(bbox.x, bbox.y, bbox.width, bbox.height + dy);
+			break;
+		case SOUTHWEST:
+			dy = p.y - bbox.y - bbox.height;
+			dx = bbox.x - p.x;
+			bbox.setBounds(p.x, bbox.y, bbox.width + dx, bbox.height + dy);
+			break;
+		case WEST:
+			dx = bbox.x - p.x;
+			bbox.setBounds(p.x, bbox.y, bbox.width + dx, bbox.height);
+			break;
+		}
 	}
 }
 
