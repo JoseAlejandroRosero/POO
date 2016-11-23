@@ -10,14 +10,12 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import view.Cardinal;
-import view.ControlPoint;
 
 public class BoundBox extends Rectangle {
 	
 	private static final long serialVersionUID = -4017699224554280511L;
 	
 	private ControlPoint[] controlpoints= new ControlPoint[8];
-
 	public BoundBox(int x,int y,int width,int height) {
 		super(x,y,width,height);
 		for(Cardinal c: Cardinal.values()){
@@ -71,9 +69,6 @@ public class BoundBox extends Rectangle {
 			c.paint(g2);
 		}
 	}
-	public ControlPoint[] getControlPoint(Point p) {
-		return controlpoints;
-	}
 	public void copy(Rectangle bbox) {
 		this.x = bbox.x;
 		this.y = bbox.y;
@@ -83,14 +78,13 @@ public class BoundBox extends Rectangle {
 			cp.updatePosition(this);
 		}
 	}
-	public Cursor getCursor(Point p) {
-		Cursor c = Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);
+	public Cursor setCursor(Point p) {
 		for(ControlPoint cp : controlpoints){
 			if(cp.contains(p)){
-				c=cp.getCursor();
+				return cp.getCursor();
 			}
 		}
-		return c;
+		return Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);
 	}
 	@Override
 	public boolean contains(Point p){
@@ -101,19 +95,28 @@ public class BoundBox extends Rectangle {
 		}
 		return super.contains(p);
 	}
-	public void setPosition(Point p) {
-		int dx = p.x-2*x;
-		int dy = p.y-2*y;
-		translate(dx, dy);
-		for(ControlPoint cp : controlpoints ){
-			cp.translate(dx, dy);
-		}
-	}
 	@Override
 	public void setBounds(int x, int y, int width, int height){
 		super.setBounds(x, y, width, height);
 		for(ControlPoint cp : controlpoints){
 			cp.updatePosition(this);
+		}
+	}
+	public void setPosition(int dx, int dy) {
+		setLocation(x+dx,y+dy);
+		for(ControlPoint cp: controlpoints){
+			cp.translate(dx, dy);
+		}
+	}
+	public ControlPoint getControlPoint(Point p) {
+		for(ControlPoint cp: controlpoints){
+			if(cp.contains(p))return cp;
+		}
+		return null;
+	}
+	public void moveTo(Point p) {
+		for(ControlPoint cp : controlpoints){
+			cp.moveTo(p);
 		}
 	}
 }

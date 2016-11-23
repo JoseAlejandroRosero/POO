@@ -12,16 +12,16 @@ import mediator.App;
 @SuppressWarnings("serial")
 public class SideToolBar extends JToolBar {
 	
-	private JButton undo = new JButton("Undo",new ImageIcon("Assets/undo.png"));
-	private JButton redo = new JButton("Redo",new ImageIcon("Assets/redo.png"));
-	private JButton line = new JButton("Line",new ImageIcon("Assets/line.png"));
-	private JButton rectangle = new JButton("Rectangle",new ImageIcon("Assets/rectangle.png"));
-	private JButton ellipse = new JButton("Ellipse",new ImageIcon("Assets/ellipse.png"));
-	private JButton text = new JButton("Text",new ImageIcon("Assets/text.png"));
-	private JButton diamond = new JButton("Diamond",new ImageIcon("Assets/diamond.png"));
-	private JButton select = new JButton("Selection",new ImageIcon("Assets/select.png"));
-	private JButton group = new JButton("Group",new ImageIcon("Assets/group.png"));
-	private JButton ungroup = new JButton("Ungroup",new ImageIcon("Assets/ungroup.png"));
+	private JButton undo = new JButton(new ImageIcon("Assets/undo.png"));
+	private JButton redo = new JButton(new ImageIcon("Assets/redo.png"));
+	private JButton line = new JButton(new ImageIcon("Assets/line.png"));
+	private JButton rectangle = new JButton(new ImageIcon("Assets/rectangle.png"));
+	private JButton ellipse = new JButton(new ImageIcon("Assets/ellipse.png"));
+	private JButton text = new JButton(new ImageIcon("Assets/text.png"));
+	private JButton diamond = new JButton(new ImageIcon("Assets/diamond.png"));
+	private JButton select = new JButton(new ImageIcon("Assets/select.png"));
+	private JButton group = new JButton(new ImageIcon("Assets/group.png"));
+	private JButton ungroup = new JButton(new ImageIcon("Assets/ungroup.png"));
 
 	public SideToolBar() {
 		undo.addActionListener(new ActionListener() {

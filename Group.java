@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.List;
@@ -58,17 +57,18 @@ public class Group extends Figure {
 		}
 	}
 	@Override
-	public void move(Point p){
-		super.move(p);
-		for(Figure f: children){
-			f.move(p);
+	public void move(int dx, int dy){
+		super.move(dx, dy);
+		for(Figure f : children){
+			f.move(dx, dy);
 		}
 	}
+
 	@Override
-	public void processCursor(Cursor c,Point p){
-		super.processCursor(c, p);
-		for(Figure f : children){
-			f.processCursor(c, p);
+	public void resize(Point p) {
+		super.resize(p);
+		for(Figure f: children){
+			f.resize(p);
 		}
 	}
 }

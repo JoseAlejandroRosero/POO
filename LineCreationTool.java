@@ -17,10 +17,6 @@ public class LineCreationTool extends CreationTool{
 	protected void drawFeedback(Graphics2D g){
 		Point p=getPtPressed();
 		Point r=getPtReleased();
-		int x=p.x;
-		int y=p.y;
-		int w=-(p.x-r.x);
-		int h=-(p.y-r.y);
-		g.drawLine(x, y, x+w,y+h);
+		g.drawLine(p.x, p.y, r.x,r.y);
 	}
 }

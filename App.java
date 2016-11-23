@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.BoundBox;
+import model.ControlPoint;
 import model.Drawing;
 import model.DrawingListener;
 import model.Figure;
@@ -316,10 +317,7 @@ public class App{
 		return view.getMyGraphics();
 	}
 
-	public void move(Point p) {
-		model.move(p);
-	}
-
+	
 	public void group() {
 		model.group();
 	}
@@ -327,14 +325,20 @@ public class App{
 	public void ungroup() {
 		model.ungroup();
 	}
-	public void processCursor(Cursor c,Point p) {
-		model.processCursor(c,p);
+	
+	public void move(int dx, int dy) {
+		model.move(dx,dy);
 	}
 
-	public Cursor getCursor(Point p) {
-		return model.getCursor(p);
+	public ControlPoint getControlPoint(Point p) {
+		return model.getControlPoint(p);
 	}
-	public void fixedPosition(Point p,Point r) {
-		model.fixedPosition(p,r);
+
+	public Figure getFigureIn(Point p) {
+		return model.getFigureIn(p);
+	}
+
+	public void resize(Point p) {
+		model.resize(p);
 	}
 }

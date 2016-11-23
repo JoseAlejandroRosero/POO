@@ -1,7 +1,9 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Iterator;
@@ -9,6 +11,7 @@ import java.util.Iterator;
 import javax.swing.JPanel;
 
 import mediator.App;
+import model.ControlPoint;
 import model.DrawingListener;
 import model.Figure;
 import util.DiamondCreationTool;
@@ -34,7 +37,12 @@ public class Canvas extends JPanel implements DrawingListener{
 	
 	private Tool[] tools;
 	private Tool activeTool;
+	private Point pressed;
 	
+	public void setPressed(Point pressed) {
+		this.pressed = pressed;
+	}
+
 	public Canvas(){
 		super(true);
 		setBackground(Color.WHITE);
@@ -51,23 +59,46 @@ public class Canvas extends JPanel implements DrawingListener{
 		addMouseListener( new MouseAdapter(){
 			@Override
 			public void mousePressed( MouseEvent e){
-					activeTool.mousePressed(e);
+				pressed=e.getPoint();
+				if(getCursor()==Cursor.getDefaultCursor())activeTool.mousePressed(e);
 			}
 			@Override
 			public void mouseReleased( MouseEvent e ){
-					activeTool.mouseReleased(e);
+				if(getCursor()==Cursor.getDefaultCursor())activeTool.mouseReleased(e);
 			}
 		});
 			addMouseMotionListener(new MouseAdapter(){
 				
 				@Override
 				public void mouseMoved(MouseEvent e){
-					Canvas.super.setCursor(App.getInstance().getCursor(e.getPoint()));
+					Point p=e.getPoint();
+					ControlPoint cp=App.getInstance().getControlPoint(p);
+					if(cp!=null)Canvas.super.setCursor(cp.getCursor());
+					else{
+						Figure f=App.getInstance().getFigureIn(p);
+						if(f!=null)Canvas.super.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+						else {
+							Canvas.super.setCursor(Cursor.getDefaultCursor());
+						}
+					}
 				}
 				
 				@Override
 				public void mouseDragged(MouseEvent e){
-						activeTool.processMouseDragged(e.getPoint());
+					Cursor c=getCursor();
+					Point p=e.getPoint();
+					if(c==Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR)){
+						int dx=p.x-pressed.x;
+						int dy=p.y-pressed.y;
+						Figure figure = App.getInstance().getFigureIn(p);
+						if(figure!=null){
+							if(!figure.isSelected())App.getInstance().select(p);
+							App.getInstance().move(dx, dy);
+						}
+						setPressed(p);
+					}
+					if(c==Cursor.getDefaultCursor())activeTool.processMouseDragged(e.getPoint());
+					else App.getInstance().resize(p);
 				}
 				
 			});

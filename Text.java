@@ -29,10 +29,12 @@ public class Text extends Figure {
 	@Override
 	public void dopaint(final Graphics2D g) {
 		BoundBox bbox = getNormalizedBoundBox();
-		FontMetrics fm = g.getFontMetrics();
 		g.setFont(font);
+		FontMetrics fm = g.getFontMetrics();
 		g.setClip(bbox.x, bbox.y, bbox.width, bbox.height);
-		g.drawString(string,bbox.x, bbox.y+fm.getAscent());
+		if(string!=null){
+			g.drawString(string,bbox.x, bbox.y+fm.getAscent());
+		}
 		g.setClip(null);
 	}
 

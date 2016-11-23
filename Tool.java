@@ -21,6 +21,9 @@ public abstract class Tool {
 	protected Point getPtPressed() {
 		return ptPressed;
 	}
+	protected void setPtPressed(Point p){
+		ptPressed=p;
+	}
 	protected Point getPtReleased() {
 		return ptReleased;
 	}
